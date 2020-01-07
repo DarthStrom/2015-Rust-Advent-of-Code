@@ -1,6 +1,9 @@
+const UP: char = '(';
+const DOWN: char = ')';
+
 pub fn get_floor(directions: &str) -> i32 {
-    let ups = directions.matches("(").count() as i32;
-    let downs = directions.matches(")").count() as i32;
+    let ups = directions.matches(UP).count() as i32;
+    let downs = directions.matches(DOWN).count() as i32;
     ups - downs
 }
 
@@ -10,8 +13,8 @@ pub fn when_basement(directions: &str) -> usize {
 
     for (i, c) in directions.chars().enumerate() {
         match c {
-            ')' => location -= 1,
-            '(' => location += 1,
+            DOWN => location -= 1,
+            UP => location += 1,
             _ => (),
         }
         if location == -1 {
