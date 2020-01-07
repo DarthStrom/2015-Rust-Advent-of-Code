@@ -1,6 +1,7 @@
 use std::fs;
 
 mod day1;
+mod day2;
 
 fn main() {
     let contents = fs::read_to_string("input/day1.txt").unwrap();
