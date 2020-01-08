@@ -1,13 +1,22 @@
+use std::fs;
+
 const UP: char = '(';
 const DOWN: char = ')';
 
-pub fn get_floor(directions: &str) -> i32 {
+pub fn run() {
+    let contents = fs::read_to_string("input/day1.txt").unwrap();
+    println!("part1: {}", get_floor(&contents));
+
+    println!("part2: {}", when_basement(&contents));
+}
+
+fn get_floor(directions: &str) -> i32 {
     let ups = directions.matches(UP).count() as i32;
     let downs = directions.matches(DOWN).count() as i32;
     ups - downs
 }
 
-pub fn when_basement(directions: &str) -> usize {
+fn when_basement(directions: &str) -> usize {
     let mut location = 0;
     let mut position = 1;
 

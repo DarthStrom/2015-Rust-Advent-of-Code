@@ -1,3 +1,17 @@
+use std::fs;
+
+pub fn run() {
+    let contents = fs::read_to_string("input/day2.txt").unwrap();
+
+    println!(
+        "part1: {}",
+        contents
+            .lines()
+            .map(|l| sq_ft_wrapping_paper(&l))
+            .sum::<u32>()
+    );
+}
+
 fn sq_ft_wrapping_paper(size: &str) -> u32 {
     let dimensions = size
         .split('x')

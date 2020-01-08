@@ -1,11 +1,14 @@
-use std::fs;
-
 mod day1;
 mod day2;
 
 fn main() {
-    let contents = fs::read_to_string("input/day1.txt").unwrap();
-    println!("part1: {}", day1::get_floor(&contents));
-
-    println!("part2: {}", day1::when_basement(&contents));
+    let args = std::env::args().collect::<Vec<_>>();
+    if args.len() > 1 {
+        let day = args[1].parse::<u32>().expect("pick a day number");
+        match day {
+            1 => day1::run(),
+            2 => day2::run(),
+            _ => println!("unimplemented day"),
+        }
+    }
 }
