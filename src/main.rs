@@ -1,5 +1,6 @@
 mod day1;
 mod day2;
+mod input;
 
 fn main() {
     let args = std::env::args().collect::<Vec<_>>();

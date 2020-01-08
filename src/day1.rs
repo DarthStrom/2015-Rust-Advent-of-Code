@@ -1,10 +1,10 @@
-use std::fs;
+use crate::input;
 
 const UP: char = '(';
 const DOWN: char = ')';
 
 pub fn run() {
-    let contents = fs::read_to_string("input/day1.txt").unwrap();
+    let contents = input::get_contents("day1");
     println!("part1: {}", get_floor(&contents));
 
     println!("part2: {}", when_basement(&contents));
