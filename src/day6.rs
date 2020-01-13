@@ -10,18 +10,18 @@ pub fn run() {
         lights.do_instruction(&line);
     }
 
-    println!("part1: {}", lights.count_on());
+    println!("part2: {}", lights.count_brightness());
 }
 
 struct Grid {
-    lights: Vec<Vec<bool>>,
+    lights: Vec<Vec<usize>>,
 }
 
 impl fmt::Display for Grid {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for row in &self.lights {
             for &light in row {
-                write!(f, "{}", if light { '*' } else { ' ' })?;
+                write!(f, "{}", light)?;
             }
             writeln!(f)?;
         }
@@ -35,7 +35,7 @@ impl Grid {
         for _ in 0..rows {
             let mut row = vec![];
             for _ in 0..columns {
-                row.push(false);
+                row.push(0);
             }
             lights.push(row);
         }
@@ -43,34 +43,33 @@ impl Grid {
         Self { lights }
     }
 
-    fn count_on(&self) -> usize {
+    fn count_brightness(&self) -> usize {
         self.lights
             .iter()
-            .map(|row| row.iter().filter(|&light| *light).count())
+            .map(|row| row.iter().sum::<usize>())
             .sum()
     }
 
     fn turn_on(&mut self, top_left: (usize, usize), bottom_right: (usize, usize)) {
-        self.change(top_left, bottom_right, true);
+        self.increase(top_left, bottom_right, 1);
     }
 
     fn turn_off(&mut self, top_left: (usize, usize), bottom_right: (usize, usize)) {
-        self.change(top_left, bottom_right, false);
+        self.increase(top_left, bottom_right, -1);
     }
-
-    fn change(&mut self, top_left: (usize, usize), bottom_right: (usize, usize), to: bool) {
-        for y in top_left.1..=bottom_right.1 {
-            for x in top_left.0..=bottom_right.0 {
-                self.lights[y][x] = to
-            }
-        }
-    }
-
     fn toggle(&mut self, top_left: (usize, usize), bottom_right: (usize, usize)) {
+        self.increase(top_left, bottom_right, 2);
+    }
+
+    fn increase(&mut self, top_left: (usize, usize), bottom_right: (usize, usize), by: i32) {
         for y in top_left.1..=bottom_right.1 {
             for x in top_left.0..=bottom_right.0 {
-                let was = self.lights[y][x];
-                self.lights[y][x] = !was
+                let light = self.lights[y][x] as i32;
+                if light + by < 0 {
+                    self.lights[y][x] = 0;
+                } else {
+                    self.lights[y][x] = (light + by) as usize
+                }
             }
         }
     }
@@ -103,15 +102,15 @@ mod tests {
     #[test]
     fn example() {
         let mut grid = Grid::new(4, 4);
-        assert_eq!(format!("{}", grid), "    \n    \n    \n    \n".to_string());
+        assert_eq!(format!("{}", grid), "0000\n0000\n0000\n0000\n".to_string());
 
         grid.do_instruction("turn on 0,0 through 3,3");
-        assert_eq!(format!("{}", grid), "****\n****\n****\n****\n".to_string());
+        assert_eq!(format!("{}", grid), "1111\n1111\n1111\n1111\n".to_string());
 
         grid.do_instruction("toggle 0,0 through 3,0");
-        assert_eq!(format!("{}", grid), "    \n****\n****\n****\n".to_string());
+        assert_eq!(format!("{}", grid), "3333\n1111\n1111\n1111\n".to_string());
 
         grid.do_instruction("turn off 1,1 through 2,2");
-        assert_eq!(format!("{}", grid), "    \n*  *\n*  *\n****\n".to_string());
+        assert_eq!(format!("{}", grid), "3333\n1001\n1001\n1111\n".to_string());
     }
 }
