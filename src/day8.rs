@@ -4,6 +4,22 @@ pub fn run() {
     let lines = get_lines("day8");
 
     println!("part1: {}", overhead_chars(&lines));
+
+    println!("part2: {}", encoding_chars(&lines));
+}
+
+fn encoded_chars(s: &str) -> usize {
+    let mut result = 0;
+
+    for c in s.chars() {
+        if "\\\"".contains(c) {
+            result += 1;
+        }
+        result += 1;
+    }
+    result += 2;
+
+    result
 }
 
 fn literal_chars(s: &str) -> usize {
@@ -58,6 +74,13 @@ fn string_chars(s: &str) -> usize {
     result
 }
 
+fn encoding_chars(strings: &[String]) -> usize {
+    strings
+        .iter()
+        .map(|s| encoded_chars(&s) - literal_chars(&s))
+        .sum()
+}
+
 fn overhead_chars(strings: &[String]) -> usize {
     strings
         .iter()
@@ -70,19 +93,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn example() {
-        assert_eq!(literal_chars(r#""""#), 2);
-        assert_eq!(string_chars(r#""""#), 0);
-
-        assert_eq!(literal_chars(r#""abc""#), 5);
-        assert_eq!(string_chars(r#""abc""#), 3);
-
-        assert_eq!(literal_chars(r#""aaa\"aaa""#), 10);
-        assert_eq!(string_chars(r#""aaa\"aaa""#), 7);
-
-        assert_eq!(literal_chars(r#""\x27""#), 6);
-        assert_eq!(string_chars(r#""\x27""#), 1);
-
+    fn example1() {
         let lines = [
             r#""""#.to_string(),
             r#""abc""#.to_string(),
@@ -90,5 +101,16 @@ mod tests {
             r#""\x27""#.to_string(),
         ];
         assert_eq!(overhead_chars(&lines), 12);
+    }
+
+    #[test]
+    fn example2() {
+        let lines = [
+            r#""""#.to_string(),
+            r#""abc""#.to_string(),
+            r#""aaa\"aaa""#.to_string(),
+            r#""\x27""#.to_string(),
+        ];
+        assert_eq!(encoding_chars(&lines), 19);
     }
 }
