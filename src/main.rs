@@ -2,6 +2,7 @@ mod day1;
 mod day10;
 mod day11;
 mod day12;
+mod day13;
 mod day2;
 mod day3;
 mod day4;
@@ -15,7 +16,10 @@ mod input;
 fn main() {
     let args = std::env::args().collect::<Vec<_>>();
     if args.len() > 1 {
-        let day = args[1].parse::<u32>().expect("pick a day number");
+        let day = args[1]
+            .replace("day", "")
+            .parse::<u32>()
+            .expect("pick a day number");
         match day {
             1 => day1::run(),
             2 => day2::run(),
@@ -29,7 +33,10 @@ fn main() {
             10 => day10::run(),
             11 => day11::run(),
             12 => day12::run(),
+            13 => day13::run(),
             _ => println!("unimplemented day"),
         }
+    } else {
+        println!("Which day?");
     }
 }
