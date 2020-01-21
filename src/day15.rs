@@ -4,10 +4,12 @@ use std::collections::HashMap;
 pub fn run() {
     let lines = get_lines("day15");
 
-    println!("part1: {:?}", best_score(&lines));
+    println!("part1: {}", best_score(&lines, None));
+
+    println!("part2: {}", best_score(&lines, Some(500)));
 }
 
-fn best_score(lines: &[String]) -> i32 {
+fn best_score(lines: &[String], calories: Option<u32>) -> i32 {
     let ingredients = lines
         .iter()
         .map(|line| {
@@ -33,26 +35,31 @@ fn best_score(lines: &[String]) -> i32 {
         .collect::<HashMap<String, Ingredient>>();
 
     let mut all_cookies: HashMap<(i32, i32, i32, i32), i32> = HashMap::new();
-    for frosting in 0..=100 {
-        for candy in 0..100 - frosting {
-            for butterscotch in 0..100 - candy - frosting {
-                let sugar = 100 - frosting - candy - butterscotch;
-                let mut capacity = frosting * ingredients["Frosting"].capacity
-                    + candy * ingredients["Candy"].capacity
-                    + butterscotch * ingredients["Butterscotch"].capacity
-                    + sugar * ingredients["Sugar"].capacity;
-                let mut durability = frosting * ingredients["Frosting"].durability
-                    + candy * ingredients["Candy"].durability
-                    + butterscotch * ingredients["Butterscotch"].durability
-                    + sugar * ingredients["Sugar"].durability;
-                let mut flavor = frosting * ingredients["Frosting"].flavor
-                    + candy * ingredients["Candy"].flavor
-                    + butterscotch * ingredients["Butterscotch"].flavor
-                    + sugar * ingredients["Sugar"].flavor;
-                let mut texture = frosting * ingredients["Frosting"].texture
-                    + candy * ingredients["Candy"].texture
-                    + butterscotch * ingredients["Butterscotch"].texture
-                    + sugar * ingredients["Sugar"].texture;
+    for frosting_amt in 0..=100 {
+        for candy_amt in 0..100 - frosting_amt {
+            for butterscotch_amt in 0..100 - candy_amt - frosting_amt {
+                let sugar_amt = 100 - frosting_amt - candy_amt - butterscotch_amt;
+
+                let frosting = &ingredients["Frosting"];
+                let candy = &ingredients["Candy"];
+                let butterscotch = &ingredients["Butterscotch"];
+                let sugar = &ingredients["Sugar"];
+                let mut capacity = frosting_amt * frosting.capacity
+                    + candy_amt * candy.capacity
+                    + butterscotch_amt * butterscotch.capacity
+                    + sugar_amt * sugar.capacity;
+                let mut durability = frosting_amt * frosting.durability
+                    + candy_amt * candy.durability
+                    + butterscotch_amt * butterscotch.durability
+                    + sugar_amt * sugar.durability;
+                let mut flavor = frosting_amt * frosting.flavor
+                    + candy_amt * candy.flavor
+                    + butterscotch_amt * butterscotch.flavor
+                    + sugar_amt * sugar.flavor;
+                let mut texture = frosting_amt * frosting.texture
+                    + candy_amt * candy.texture
+                    + butterscotch_amt * butterscotch.texture
+                    + sugar_amt * sugar.texture;
                 if capacity < 0 {
                     capacity = 0;
                 }
@@ -66,7 +73,27 @@ fn best_score(lines: &[String]) -> i32 {
                     texture = 0;
                 }
                 let score = capacity * durability * flavor * texture;
-                all_cookies.insert((frosting, candy, butterscotch, sugar), score);
+
+                match calories {
+                    Some(c) => {
+                        let total_cal = frosting_amt as u32 * frosting.calories
+                            + candy_amt as u32 * candy.calories
+                            + butterscotch_amt as u32 * butterscotch.calories
+                            + sugar_amt as u32 * sugar.calories;
+                        if total_cal == c {
+                            all_cookies.insert(
+                                (frosting_amt, candy_amt, butterscotch_amt, sugar_amt),
+                                score,
+                            );
+                        }
+                    }
+                    None => {
+                        all_cookies.insert(
+                            (frosting_amt, candy_amt, butterscotch_amt, sugar_amt),
+                            score,
+                        );
+                    }
+                }
             }
         }
     }
