@@ -68,7 +68,7 @@ fn populate_reindeers(lines: &[String]) -> Vec<Reindeer> {
     let mut reindeers: Vec<Reindeer> = vec![];
 
     for line in lines {
-        let parts = line.split(" ").collect::<Vec<_>>();
+        let parts = line.split(' ').collect::<Vec<_>>();
 
         reindeers.push(Reindeer {
             name: parts[0].to_string(),
