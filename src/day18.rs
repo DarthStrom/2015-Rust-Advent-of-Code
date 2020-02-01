@@ -65,11 +65,8 @@ impl Grid {
                         2 | 3 => (),
                         _ => *light = false,
                     }
-                } else {
-                    match neighbors {
-                        3 => *light = true,
-                        _ => (),
-                    }
+                } else if let 3 = neighbors {
+                    *light = true
                 }
             }
         }
@@ -96,11 +93,8 @@ impl Grid {
                             2 | 3 => (),
                             _ => *light = false,
                         }
-                    } else {
-                        match neighbors {
-                            3 => *light = true,
-                            _ => (),
-                        }
+                    } else if let 3 = neighbors {
+                        *light = true
                     }
                 }
             }
@@ -115,7 +109,7 @@ impl Grid {
     }
 }
 
-fn count_neighbors(grid: &Vec<Vec<bool>>, column: usize, row: usize) -> usize {
+fn count_neighbors(grid: &[Vec<bool>], column: usize, row: usize) -> usize {
     let mut result = 0;
 
     let start_x = if column > 0 { column - 1 } else { 0 };
@@ -132,11 +126,9 @@ fn count_neighbors(grid: &Vec<Vec<bool>>, column: usize, row: usize) -> usize {
     };
 
     for x in start_x..=end_x {
-        for y in start_y..=end_y {
-            if !(x == column && y == row) {
-                if grid[y][x] {
-                    result += 1
-                }
+        for (y, grid_row) in grid.iter().enumerate().take(end_y + 1).skip(start_y) {
+            if !(x == column && y == row) && grid_row[x] {
+                result += 1
             }
         }
     }
