@@ -1,7 +1,7 @@
 use crate::input::get_lines;
 
 pub fn run() {
-    let lines = get_lines("day2");
+    let lines = get_lines("day02");
 
     println!(
         "part1: {}",

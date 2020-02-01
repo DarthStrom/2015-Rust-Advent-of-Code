@@ -4,7 +4,7 @@ use std::fmt;
 
 pub fn run() {
     let mut lights = Grid::new(1000, 1000);
-    let lines = get_lines("day6");
+    let lines = get_lines("day06");
 
     for line in lines {
         lights.do_instruction(&line);

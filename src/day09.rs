@@ -5,7 +5,7 @@ use std::{
 };
 
 pub fn run() {
-    let lines = get_lines("day9");
+    let lines = get_lines("day09");
 
     println!("part1: {}", shortest(&lines));
 

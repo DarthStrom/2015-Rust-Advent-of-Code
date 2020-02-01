@@ -1,7 +1,7 @@
 use crate::input::get_lines;
 
 pub fn run() {
-    let lines = get_lines("day5");
+    let lines = get_lines("day05");
 
     println!("part1: {}", lines.iter().filter(|l| nice(&l)).count());
 

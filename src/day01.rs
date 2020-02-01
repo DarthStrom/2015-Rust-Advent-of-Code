@@ -4,7 +4,7 @@ const UP: char = '(';
 const DOWN: char = ')';
 
 pub fn run() {
-    let contents = input::get_contents("day1");
+    let contents = input::get_contents("day01");
     println!("part1: {}", get_floor(&contents));
 
     println!("part2: {}", when_basement(&contents));

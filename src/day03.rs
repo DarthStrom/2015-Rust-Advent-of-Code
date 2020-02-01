@@ -2,7 +2,7 @@ use crate::input;
 use std::collections::HashMap;
 
 pub fn run() {
-    let contents = input::get_contents("day3");
+    let contents = input::get_contents("day03");
 
     println!("part1: {}", count_houses(&contents));
     println!("part2: {}", count_houses_dual(&contents));

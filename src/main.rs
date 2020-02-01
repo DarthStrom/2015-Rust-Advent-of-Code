@@ -1,4 +1,12 @@
-mod day1;
+mod day01;
+mod day02;
+mod day03;
+mod day04;
+mod day05;
+mod day06;
+mod day07;
+mod day08;
+mod day09;
 mod day10;
 mod day11;
 mod day12;
@@ -8,14 +16,7 @@ mod day15;
 mod day16;
 mod day17;
 mod day18;
-mod day2;
-mod day3;
-mod day4;
-mod day5;
-mod day6;
-mod day7;
-mod day8;
-mod day9;
+mod day19;
 mod input;
 
 fn main() {
@@ -26,15 +27,15 @@ fn main() {
             .parse::<u32>()
             .expect("pick a day number");
         match day {
-            1 => day1::run(),
-            2 => day2::run(),
-            3 => day3::run(),
-            4 => day4::run(),
-            5 => day5::run(),
-            6 => day6::run(),
-            7 => day7::run(),
-            8 => day8::run(),
-            9 => day9::run(),
+            1 => day01::run(),
+            2 => day02::run(),
+            3 => day03::run(),
+            4 => day04::run(),
+            5 => day05::run(),
+            6 => day06::run(),
+            7 => day07::run(),
+            8 => day08::run(),
+            9 => day09::run(),
             10 => day10::run(),
             11 => day11::run(),
             12 => day12::run(),
@@ -44,6 +45,7 @@ fn main() {
             16 => day16::run(),
             17 => day17::run(),
             18 => day18::run(),
+            19 => day19::run(),
             _ => println!("unimplemented day"),
         }
     } else {

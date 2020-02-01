@@ -2,7 +2,7 @@ use crate::input::get_lines;
 use std::collections::HashMap;
 
 pub fn run() {
-    let lines = get_lines("day7");
+    let lines = get_lines("day07");
     let mut circuit = Circuit::new(lines.as_slice());
 
     let part1 = circuit.resolve_signal("a");
