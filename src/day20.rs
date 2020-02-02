@@ -1,5 +1,8 @@
+const ELVES: usize = 3_310_000;
+
 pub fn run() {
     println!("part1: {}", lowest_house_to_get(33_100_000));
+    println!("part2: {}", part_2());
 }
 
 fn lowest_house_to_get(input: usize) -> usize {
@@ -17,6 +20,27 @@ fn lowest_house_to_get(input: usize) -> usize {
             let presents = houses[house];
             if presents >= elves && house < house_number {
                 house_number = house;
+            }
+        }
+    }
+
+    house_number
+}
+
+fn part_2() -> usize {
+    let mut houses: Vec<usize> = vec![0; ELVES];
+    let mut house_number = ELVES;
+
+    for elf in 1..ELVES {
+        for (visits, house) in (elf..ELVES).step_by(elf).enumerate() {
+            houses[house] += elf * 11;
+            let presents = houses[house];
+            if presents >= ELVES * 10 && elf < house_number {
+                house_number = house;
+            }
+
+            if visits >= 50 {
+                break;
             }
         }
     }
