@@ -10,8 +10,108 @@ pub fn run() {
         ac: 2,
     };
 
-    println!("part1: {}", lowest_winning_spend(player, boss));
+    println!("part1: {}", lowest_winning_spend(&player, &boss));
+    println!("part2: {}", biggest_losing_spend(&player, &boss));
 }
+
+const WEAPONS: [Item; 5] = [
+    Item {
+        cost: 8,
+        dmg: 4,
+        ac: 0,
+    },
+    Item {
+        cost: 10,
+        dmg: 5,
+        ac: 0,
+    },
+    Item {
+        cost: 25,
+        dmg: 6,
+        ac: 0,
+    },
+    Item {
+        cost: 40,
+        dmg: 7,
+        ac: 0,
+    },
+    Item {
+        cost: 74,
+        dmg: 8,
+        ac: 0,
+    },
+];
+
+const ARMOR: [Item; 6] = [
+    Item {
+        cost: 0,
+        dmg: 0,
+        ac: 0,
+    },
+    Item {
+        cost: 13,
+        dmg: 0,
+        ac: 1,
+    },
+    Item {
+        cost: 31,
+        dmg: 0,
+        ac: 2,
+    },
+    Item {
+        cost: 53,
+        dmg: 0,
+        ac: 3,
+    },
+    Item {
+        cost: 75,
+        dmg: 0,
+        ac: 4,
+    },
+    Item {
+        cost: 102,
+        dmg: 0,
+        ac: 5,
+    },
+];
+
+const RINGS: [Item; 7] = [
+    Item {
+        cost: 0,
+        dmg: 0,
+        ac: 0,
+    },
+    Item {
+        cost: 25,
+        dmg: 1,
+        ac: 0,
+    },
+    Item {
+        cost: 50,
+        dmg: 2,
+        ac: 0,
+    },
+    Item {
+        cost: 100,
+        dmg: 3,
+        ac: 0,
+    },
+    Item {
+        cost: 20,
+        dmg: 0,
+        ac: 1,
+    },
+    Item {
+        cost: 40,
+        dmg: 0,
+        ac: 2,
+    },
+    Item {
+        cost: 80,
+        dmg: 0,
+        ac: 3,
+    },
+];
 
 #[derive(Clone, Debug)]
 struct Character {
@@ -27,127 +127,73 @@ struct Item {
     ac: i32,
 }
 
-fn lowest_winning_spend(player: Character, boss: Character) -> i32 {
-    let weapons = vec![
-        Item {
-            cost: 8,
-            dmg: 4,
-            ac: 0,
-        },
-        Item {
-            cost: 10,
-            dmg: 5,
-            ac: 0,
-        },
-        Item {
-            cost: 25,
-            dmg: 6,
-            ac: 0,
-        },
-        Item {
-            cost: 40,
-            dmg: 7,
-            ac: 0,
-        },
-        Item {
-            cost: 74,
-            dmg: 8,
-            ac: 0,
-        },
-    ];
-    let armors = vec![
-        Item {
-            cost: 0,
-            dmg: 0,
-            ac: 0,
-        },
-        Item {
-            cost: 13,
-            dmg: 0,
-            ac: 1,
-        },
-        Item {
-            cost: 31,
-            dmg: 0,
-            ac: 2,
-        },
-        Item {
-            cost: 53,
-            dmg: 0,
-            ac: 3,
-        },
-        Item {
-            cost: 75,
-            dmg: 0,
-            ac: 4,
-        },
-        Item {
-            cost: 102,
-            dmg: 0,
-            ac: 5,
-        },
-    ];
-    let rings = vec![
-        Item {
-            cost: 0,
-            dmg: 0,
-            ac: 0,
-        },
-        Item {
-            cost: 25,
-            dmg: 1,
-            ac: 0,
-        },
-        Item {
-            cost: 50,
-            dmg: 2,
-            ac: 0,
-        },
-        Item {
-            cost: 100,
-            dmg: 3,
-            ac: 0,
-        },
-        Item {
-            cost: 20,
-            dmg: 0,
-            ac: 1,
-        },
-        Item {
-            cost: 40,
-            dmg: 0,
-            ac: 2,
-        },
-        Item {
-            cost: 80,
-            dmg: 0,
-            ac: 3,
-        },
-    ];
+struct Loadout<'a> {
+    weapon: &'a Item,
+    armor: &'a Item,
+    left_ring: &'a Item,
+    right_ring: &'a Item,
+}
 
-    let mut loadouts = vec![];
-    for weapon in &weapons {
-        for armor in &armors {
-            for right_ring in &rings {
-                for left_ring in &rings {
+impl<'a> Loadout<'a> {
+    fn cost(&self) -> i32 {
+        self.weapon.cost + self.armor.cost + self.left_ring.cost + self.right_ring.cost
+    }
+
+    fn dmg(&self) -> i32 {
+        self.weapon.dmg + self.armor.dmg + self.left_ring.dmg + self.right_ring.dmg
+    }
+
+    fn ac(&self) -> i32 {
+        self.weapon.ac + self.armor.ac + self.left_ring.ac + self.right_ring.ac
+    }
+}
+
+fn get_loadouts<'a>() -> Vec<Loadout<'a>> {
+    let mut result = vec![];
+    for weapon in &WEAPONS {
+        for armor in &ARMOR {
+            for right_ring in &RINGS {
+                for left_ring in &RINGS {
                     if left_ring != right_ring {
-                        loadouts.push([weapon, armor, right_ring, left_ring]);
+                        result.push(Loadout {
+                            weapon,
+                            armor,
+                            left_ring,
+                            right_ring,
+                        });
                     }
                 }
             }
         }
     }
+    result
+}
 
-    loadouts
+fn get_battle_result<'a>(
+    loadout: &'a Loadout,
+    player: &'a Character,
+    boss: &'a Character,
+) -> (i32, i32) {
+    let mut buffed = player.clone();
+    buffed.dmg += loadout.dmg();
+    buffed.ac += loadout.ac();
+    simulate_battle(&buffed, &boss)
+}
+
+fn biggest_losing_spend(player: &Character, boss: &Character) -> i32 {
+    get_loadouts()
         .iter()
-        .filter(|loadout| {
-            let mut buffed = player.clone();
-            buffed.dmg += loadout[0].dmg + loadout[1].dmg + loadout[2].dmg + loadout[3].dmg;
-            buffed.ac += loadout[0].ac + loadout[1].ac + loadout[2].ac + loadout[3].ac;
-            let battle_result = simulate_battle(&buffed, &boss);
-            battle_result.0 > 0
-        })
-        .map(|loadout| loadout[0].cost + loadout[1].cost + loadout[2].cost + loadout[3].cost)
+        .filter(|&loadout| get_battle_result(loadout, &player, &boss).1 > 0)
+        .map(|loadout| loadout.cost())
+        .max()
+        .unwrap()
+}
+
+fn lowest_winning_spend(player: &Character, boss: &Character) -> i32 {
+    get_loadouts()
+        .iter()
+        .filter(|&loadout| get_battle_result(loadout, &player, &boss).0 > 0)
+        .map(|loadout| loadout.cost())
         .min()
         .unwrap()
 }
