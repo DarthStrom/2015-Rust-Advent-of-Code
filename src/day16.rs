@@ -34,8 +34,10 @@ fn sue_number(lines: &[String]) -> u32 {
             let thing2_count = parts[5].parse::<u32>().unwrap();
             let thing3 = parts[6];
             let thing3_count = parts[7].parse::<u32>().unwrap();
-            let mut sue = Sue::default();
-            sue.number = number;
+            let mut sue = Sue {
+                number,
+                ..Sue::default()
+            };
             add_thing(&mut sue, thing1, thing1_count);
             add_thing(&mut sue, thing2, thing2_count);
             add_thing(&mut sue, thing3, thing3_count);

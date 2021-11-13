@@ -32,7 +32,7 @@ fn optimal_happiness(lines: &[String]) -> i32 {
 
     let mut result = 0;
     heap_recursive(&mut table, |permutation| {
-        let this = happiness(&permutation, &map);
+        let this = happiness(permutation, &map);
         if this > result {
             result = this;
         }
@@ -66,7 +66,7 @@ fn optimal_happiness_plus_self(lines: &[String]) -> i32 {
 
     let mut result = 0;
     heap_recursive(&mut table, |permutation| {
-        let this = happiness(&permutation, &map);
+        let this = happiness(permutation, &map);
         if this > result {
             result = this;
         }

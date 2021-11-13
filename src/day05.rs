@@ -3,9 +3,9 @@ use crate::input::get_lines;
 pub fn run() {
     let lines = get_lines("day05");
 
-    println!("part1: {}", lines.iter().filter(|l| nice(&l)).count());
+    println!("part1: {}", lines.iter().filter(|l| nice(l)).count());
 
-    println!("part2: {}", lines.iter().filter(|l| nice2(&l)).count());
+    println!("part2: {}", lines.iter().filter(|l| nice2(l)).count());
 }
 
 fn three_vowels(input: &str) -> bool {

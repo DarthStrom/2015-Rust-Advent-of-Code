@@ -59,7 +59,7 @@ fn two_pairs(password: &str) -> bool {
 }
 
 fn next(password: &str) -> String {
-    let mut current = increment(&password);
+    let mut current = increment(password);
 
     while !valid(&current) {
         current = increment(&current);

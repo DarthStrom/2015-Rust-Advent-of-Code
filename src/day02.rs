@@ -5,13 +5,10 @@ pub fn run() {
 
     println!(
         "part1: {}",
-        lines.iter().map(|l| sq_ft_wrapping_paper(&l)).sum::<u32>()
+        lines.iter().map(|l| sq_ft_wrapping_paper(l)).sum::<u32>()
     );
 
-    println!(
-        "part2: {}",
-        lines.iter().map(|l| ft_ribbon(&l)).sum::<u32>()
-    );
+    println!("part2: {}", lines.iter().map(|l| ft_ribbon(l)).sum::<u32>());
 }
 
 fn ft_ribbon(size: &str) -> u32 {

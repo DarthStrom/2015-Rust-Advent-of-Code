@@ -177,13 +177,13 @@ fn get_battle_result<'a>(
     let mut buffed = player.clone();
     buffed.dmg += loadout.dmg();
     buffed.ac += loadout.ac();
-    simulate_battle(&buffed, &boss)
+    simulate_battle(&buffed, boss)
 }
 
 fn biggest_losing_spend(player: &Character, boss: &Character) -> i32 {
     get_loadouts()
         .iter()
-        .filter(|&loadout| get_battle_result(loadout, &player, &boss).1 > 0)
+        .filter(|&loadout| get_battle_result(loadout, player, boss).1 > 0)
         .map(|loadout| loadout.cost())
         .max()
         .unwrap()
@@ -192,7 +192,7 @@ fn biggest_losing_spend(player: &Character, boss: &Character) -> i32 {
 fn lowest_winning_spend(player: &Character, boss: &Character) -> i32 {
     get_loadouts()
         .iter()
-        .filter(|&loadout| get_battle_result(loadout, &player, &boss).0 > 0)
+        .filter(|&loadout| get_battle_result(loadout, player, boss).0 > 0)
         .map(|loadout| loadout.cost())
         .min()
         .unwrap()

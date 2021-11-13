@@ -77,14 +77,14 @@ fn string_chars(s: &str) -> usize {
 fn encoding_chars(strings: &[String]) -> usize {
     strings
         .iter()
-        .map(|s| encoded_chars(&s) - literal_chars(&s))
+        .map(|s| encoded_chars(s) - literal_chars(s))
         .sum()
 }
 
 fn overhead_chars(strings: &[String]) -> usize {
     strings
         .iter()
-        .map(|s| literal_chars(&s) - string_chars(&s))
+        .map(|s| literal_chars(s) - string_chars(s))
         .sum()
 }
 

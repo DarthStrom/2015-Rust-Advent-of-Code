@@ -98,7 +98,7 @@ fn best_score(lines: &[String], calories: Option<u32>) -> i32 {
         }
     }
 
-    *all_cookies.iter().max_by(|a, b| a.1.cmp(&b.1)).unwrap().1
+    *all_cookies.iter().max_by(|a, b| a.1.cmp(b.1)).unwrap().1
 }
 
 #[derive(Debug)]

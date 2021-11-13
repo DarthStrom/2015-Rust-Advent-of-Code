@@ -9,7 +9,7 @@ pub fn run() {
     let molecule = lines.pop().unwrap();
 
     for line in lines {
-        if line == "" {
+        if line.is_empty() {
             break;
         } else {
             let parts = line.split(' ').collect::<Vec<_>>();
@@ -19,12 +19,12 @@ pub fn run() {
 
     println!(
         "part1: {:?}",
-        distinct_molecules(&replacements.as_slice(), &molecule)
+        distinct_molecules(replacements.as_slice(), &molecule)
     );
 
     println!(
         "part2: {:?}",
-        fewest_steps(&replacements.as_slice(), "e", &molecule)
+        fewest_steps(replacements.as_slice(), "e", &molecule)
     );
 }
 

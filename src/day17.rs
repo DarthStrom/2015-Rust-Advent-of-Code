@@ -32,7 +32,7 @@ fn get_containers(lines: &[String]) -> Vec<i32> {
         .map(String::as_str)
         .flat_map(str::parse::<i32>)
         .collect::<Vec<_>>();
-    result.sort_unstable_by(|a, b| b.cmp(&a));
+    result.sort_unstable_by(|a, b| b.cmp(a));
     result
 }
 

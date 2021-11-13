@@ -33,10 +33,7 @@ impl Grid {
     fn new(columns: usize, rows: usize) -> Self {
         let mut lights = vec![];
         for _ in 0..rows {
-            let mut row = vec![];
-            for _ in 0..columns {
-                row.push(0);
-            }
+            let row = vec![0; columns];
             lights.push(row);
         }
 

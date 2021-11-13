@@ -70,7 +70,7 @@ fn solve(
             if !visited.contains(city) {
                 let mut visited = visited.clone();
                 visited.insert(*city);
-                let this = solve(&paths, &cities, city, visited, method)
+                let this = solve(paths, cities, city, visited, method)
                     + paths.get(&(current, *city)).unwrap();
                 if match method {
                     Method::Min => this < result,

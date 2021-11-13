@@ -1,5 +1,3 @@
-use md5;
-
 const EASY: &str = "00000";
 const HARD: &str = "000000";
 
