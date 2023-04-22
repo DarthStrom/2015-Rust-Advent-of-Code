@@ -23,7 +23,7 @@ fn optimal_happiness(lines: &[String]) -> i32 {
                 "lose" => -1,
                 unknown => panic!("They would what? {}?", unknown),
             };
-        let other = words[10].replace(".", "");
+        let other = words[10].replace('.', "");
         if !table.contains(&subject) {
             table.push(subject.clone());
         }
@@ -55,7 +55,7 @@ fn optimal_happiness_plus_self(lines: &[String]) -> i32 {
                 "lose" => -1,
                 unknown => panic!("They would what? {}?", unknown),
             };
-        let other = words[10].replace(".", "");
+        let other = words[10].replace('.', "");
         if !table.contains(&subject) {
             table.push(subject.clone());
             map.insert((me.clone(), subject.clone()), 0);

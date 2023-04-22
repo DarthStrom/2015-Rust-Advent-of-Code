@@ -13,9 +13,9 @@ fn best_score(lines: &[String], calories: Option<u32>) -> i32 {
     let ingredients = lines
         .iter()
         .map(|line| {
-            let line_without_commas = line.replace(",", "");
+            let line_without_commas = line.replace(',', "");
             let parts = line_without_commas.split(' ').collect::<Vec<_>>();
-            let name = parts[0].replace(":", "");
+            let name = parts[0].replace(':', "");
             let capacity = parts[2].parse::<i32>().unwrap();
             let durability = parts[4].parse::<i32>().unwrap();
             let flavor = parts[6].parse::<i32>().unwrap();
