@@ -4,11 +4,14 @@ use crate::input::get_lines;
 
 pub fn run() {
     let program = get_lines("day23");
-    let mut computer = Computer::new(&program);
 
+    let mut computer = Computer::new(&program, 0);
     computer.run();
-
     println!("Register b: {}", computer.b);
+
+    let mut computer_part2 = Computer::new(&program, 1);
+    computer_part2.run();
+    println!("Register b: {}", computer_part2.b);
 }
 
 #[derive(Clone, PartialEq, Eq)]
@@ -79,13 +82,13 @@ struct Computer {
 }
 
 impl Computer {
-    fn new(lines: &[String]) -> Self {
+    fn new(lines: &[String], register_a: isize) -> Self {
         let program = lines
             .iter()
             .map(|line| Instruction::from_str(line).expect(&format!("couldn't parse {}", line)))
             .collect();
         Self {
-            a: 0,
+            a: register_a,
             b: 0,
             cursor: 0,
             program,
@@ -152,7 +155,7 @@ mod tests {
             "tpl a".to_string(),
             "inc a".to_string(),
         ];
-        let mut computer = Computer::new(&program);
+        let mut computer = Computer::new(&program, 0);
 
         computer.run();
 
