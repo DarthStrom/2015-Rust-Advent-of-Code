@@ -25,7 +25,7 @@ fn sue_number(lines: &[String]) -> u32 {
     let sues = lines
         .iter()
         .map(|line| {
-            let line_trimmed = line.replace(':', "").replace(',', "");
+            let line_trimmed = line.replace([':', ','], "");
             let parts = line_trimmed.split(' ').collect::<Vec<_>>();
             let number = parts[1].parse::<u32>().unwrap();
             let thing1 = parts[2];
